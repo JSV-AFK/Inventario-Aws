@@ -7,3 +7,11 @@ export type Product = {
   stock: number;
   minStock: number;
 };
+
+export type Movement = {
+  id: number;
+  productName: string;
+  type: "entrada" | "salida";
+  quantity: number;
+  date: string;
+};
