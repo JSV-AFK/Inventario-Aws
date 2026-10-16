@@ -1,5 +1,6 @@
 "use client";
 
+import { Authenticator } from "@aws-amplify/ui-react";
 import { useState } from "react";
 import { mockProducts } from "@/lib/data";
 import { Movement, Product } from "@/lib/types";
@@ -103,34 +104,43 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 p-6">
-      <h1 className="text-2xl font-bold">Inventario</h1>
-      <StatsCards total={products.length} totalValue={totalValue} lowStockCount={lowStockCount} />
-      <ProductForm
-        form={form}
-        editing={editingId !== null}
-        onChange={setForm}
-        onSubmit={saveProduct}
-        onCancel={cancelEdit}
-      />
-      <Filters
-        query={query}
-        category={category}
-        onlyLow={onlyLow}
-        quantity={quantity}
-        categories={categories}
-        onQueryChange={setQuery}
-        onCategoryChange={setCategory}
-        onOnlyLowChange={setOnlyLow}
-        onQuantityChange={setQuantity}
-      />
-      <ProductTable
-        products={filtered}
-        onMove={moveStock}
-        onEdit={startEdit}
-        onDelete={deleteProduct}
-      />
-      <MovementHistory movements={movements} />
-    </main>
+    <Authenticator>
+      {({ signOut }) => (
+        <main className="mx-auto max-w-4xl space-y-6 p-6">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold">Inventario</h1>
+            <button onClick={signOut} className="rounded border px-3 py-1">
+              Cerrar sesión
+            </button>
+          </div>
+          <StatsCards total={products.length} totalValue={totalValue} lowStockCount={lowStockCount} />
+          <ProductForm
+            form={form}
+            editing={editingId !== null}
+            onChange={setForm}
+            onSubmit={saveProduct}
+            onCancel={cancelEdit}
+          />
+          <Filters
+            query={query}
+            category={category}
+            onlyLow={onlyLow}
+            quantity={quantity}
+            categories={categories}
+            onQueryChange={setQuery}
+            onCategoryChange={setCategory}
+            onOnlyLowChange={setOnlyLow}
+            onQuantityChange={setQuantity}
+          />
+          <ProductTable
+            products={filtered}
+            onMove={moveStock}
+            onEdit={startEdit}
+            onDelete={deleteProduct}
+          />
+          <MovementHistory movements={movements} />
+        </main>
+      )}
+    </Authenticator>
   );
 }
