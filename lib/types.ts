@@ -9,7 +9,7 @@ export type Product = {
 };
 
 export type Movement = {
-  id: number;
+  id: string; 
   productName: string;
   type: "entrada" | "salida";
   quantity: number;
