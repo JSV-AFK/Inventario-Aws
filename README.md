@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Inventario AWS
 
-## Getting Started
+Aplicación web full stack para gestionar el inventario de un negocio: productos, entradas y salidas de stock, alertas de stock bajo y un panel con indicadores. Cada usuario inicia sesión y ve únicamente sus propios datos.
 
-First, run the development server:
+Proyecto personal construido para practicar desarrollo web moderno y servicios en la nube de AWS.
+
+## Capturas
+
+### Inicio de sesión y verificación
+
+| Inicio de sesión | Código de verificación por correo |
+|---|---|
+| ![Login](docs/login.png) | <img src="docs/correo-verificacion.png" width="220" alt="Correo de verificación"> |
+
+### Gestión del inventario
+
+![Crear producto](docs/crear-producto.png)
+
+![Inventario con productos](docs/inventario.png)
+
+![Entradas y salidas de stock](docs/movimientos-stock.png)
+
+## Funcionalidades
+
+- Registro e inicio de sesión con verificación por correo electrónico
+- Datos privados por usuario: cada cuenta ve y edita solo su inventario
+- Crear, editar y eliminar productos (nombre, SKU, categoría, precio, stock y stock mínimo)
+- Entradas y salidas de stock con cantidad personalizada y validación de existencias
+- Historial de movimientos
+- Alerta visual de stock bajo
+- Búsqueda por nombre o SKU, filtro por categoría y filtro de productos con stock bajo
+- Panel con total de productos, valor del inventario y productos con stock bajo
+
+## Tecnologías
+
+- **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS
+- **Autenticación:** Amazon Cognito
+- **API y base de datos:** AWS AppSync (GraphQL) y Amazon DynamoDB
+- **Infraestructura como código:** AWS Amplify Gen 2 (backend definido en TypeScript)
+- **Control de versiones:** Git y GitHub
+
+## Arquitectura
+
+```
+Navegador (Next.js)
+      │
+      ├── Amazon Cognito ──── registro, login y sesiones
+      │
+      └── AWS AppSync (GraphQL) ──── Amazon DynamoDB
+                                     (Product, StockMovement)
+```
+
+El backend se define en `amplify/` (autenticación y modelos de datos). Las reglas de autorización por propietario evitan que un usuario pueda leer los datos de otro.
+
+## Estructura del proyecto
+
+```
+├── amplify/          # Backend: autenticación y modelos de datos
+├── app/              # Páginas de Next.js
+├── components/       # Componentes de la interfaz
+├── lib/              # Tipos compartidos
+└── docs/             # Capturas de pantalla
+```
+
+## Cómo ejecutarlo en local
+
+Requisitos: Node.js (LTS), Git y una cuenta de AWS con la AWS CLI configurada.
+
+```bash
+git clone https://github.com/JSV-AFK/Inventario-Aws.git
+cd Inventario-Aws
+npm install
+```
+
+En una terminal, levanta el backend de prueba:
+
+```bash
+npx ampx sandbox --identifier inventario
+```
+
+Cuando termine de desplegar (genera el archivo `amplify_outputs.json`), en otra terminal:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre `http://localhost:3000`, crea una cuenta y empieza a registrar productos.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para eliminar los recursos de AWS al terminar:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npx ampx sandbox delete --identifier inventario
+```
 
-## Learn More
+## Lo que aprendí
 
-To learn more about Next.js, take a look at the following resources:
+- Diseñar una aplicación full stack con autenticación y base de datos en la nube
+- Modelar datos y permisos con Amplify Gen 2 y DynamoDB
+- Separar la interfaz en componentes reutilizables con TypeScript
+- Trabajar con Git y GitHub, y proteger archivos de configuración sensibles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Próximos pasos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Despliegue público con AWS Amplify Hosting
+- Imágenes de productos con Amazon S3
+- Roles de usuario (administrador y empleado)
+- Reportes y exportación a CSV
 
-## Deploy on Vercel
+## Autor
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Juan Sebastián Vélez Correa**: estudiante de Ingeniería Informática
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GitHub: [JSV-AFK](https://github.com/JSV-AFK)
