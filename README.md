@@ -99,13 +99,6 @@ npx ampx sandbox delete --identifier inventario
 - Separar la interfaz en componentes reutilizables con TypeScript
 - Trabajar con Git y GitHub, y proteger archivos de configuración sensibles
 
-## Próximos pasos
-
-- Despliegue público con AWS Amplify Hosting
-- Imágenes de productos con Amazon S3
-- Roles de usuario (administrador y empleado)
-- Reportes y exportación a CSV
-
 ## Autor
 
 **Juan Sebastián Vélez Correa**: estudiante de Ingeniería Informática
